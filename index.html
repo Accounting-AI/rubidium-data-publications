@@ -1,1 +1,90 @@
-<html><body><h1>Rubidium Data Publications</h1></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rubidium Data Publications</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<meta name="theme-color" content="#5E35B1" />
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@emotion/react@11.11.4/dist/emotion-react.umd.min.js"></script>
+<script src="https://unpkg.com/@emotion/styled@11.11.5/dist/emotion-styled.umd.min.js"></script>
+<script src="https://unpkg.com/@mui/material@5.15.14/umd/material-ui.production.min.js"></script>
+
+<script type="text/javascript">
+const {createElement, useMemo} = React;
+const {createRoot} = ReactDOM;
+const {ThemeProvider, createTheme, CssBaseline, AppBar, Toolbar, Typography, Container, Box, Grid, Card, CardContent, CardActions, Button, Chip, Stack, Link, Divider, Icon} = MaterialUI;
+
+const publications = [
+{ id: "valuechains-methodology-paper-v-1-0", title: "Value Chains Methodology Paper", titleLong: "Automating the Mapping of Value Chains from Open Information Sources\nA Scalable Framework for Industrial Capacity Mapping", version: "v1.0", kind: "PDF", href: "pdfs/valuechains-methodology-paper-v-1-0/valuechains-methodology-paper-v-1-0.pdf", downloadHref: "https://github.com/Accounting-AI/rubidium-data-publications/raw/refs/heads/main/pdfs/valuechains-methodology-paper-v-1-0/valuechains-methodology-paper-v-1-0.pdf" }
+];
+
+function PublicationCard(props) {
+const pub = props.pub;
+const lines = (pub.titleLong || pub.title).split("\n");
+return React.createElement(Card, {variant: "outlined"},
+React.createElement(CardContent, null,
+React.createElement(Stack, {direction: "row", spacing: 1, alignItems: "flex-start"},
+React.createElement(Icon, {color: "primary"}, "description"),
+React.createElement(Box, {sx: {flexGrow: 1}},
+lines.map((line, idx) => React.createElement(Typography, {key: idx, variant: idx < 1 ? "subtitle1" : "body2", sx: {fontWeight: idx < 1 ? 600 : 400}, color: idx === 2 ? "text.secondary" : undefined}, line))
+),
+React.createElement(Chip, {label: pub.version, size: "small", color: "primary", variant: "outlined"})
+),
+React.createElement(Box, {mt: 1},
+React.createElement(Typography, {variant: "body2", color: "text.secondary"}, "Working Paper")
+)
+),
+React.createElement(CardActions, null,
+React.createElement(Button, {startIcon: React.createElement(Icon, null, "picture_as_pdf"), variant: "contained", color: "primary", href: pub.href, target: "_blank", rel: "noopener"}, "Open PDF"),
+React.createElement(Button, {variant: "text", color: "inherit", href: pub.downloadHref || pub.href, target: "_blank", rel: "noopener", download: ""}, "Download")
+)
+);
+}
+
+function App() {
+const theme = useMemo(() => createTheme({
+palette: { mode: "light", primary: { main: "#5E35B1" }, secondary: { main: "#00897B" }, background: { default: "#fafafa" } },
+typography: { fontFamily: "Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji','Segoe UI Emoji'" },
+shape: { borderRadius: 12 }
+}), []);
+
+return React.createElement(ThemeProvider, {theme},
+React.createElement(CssBaseline, null),
+React.createElement(AppBar, {position: "sticky", color: "primary", elevation: 0},
+React.createElement(Toolbar, null,
+React.createElement(Typography, {variant: "h6", sx: {fontWeight: 700}}, "Rubidium Data Publications")
+)
+),
+React.createElement(Box, {py: 6},
+React.createElement(Container, {maxWidth: "md"},
+React.createElement(Stack, {spacing: 1, mb: 3},
+React.createElement(Typography, {variant: "h3", sx: {fontWeight: 700}}, "Publications"),
+React.createElement(Typography, {variant: "body1", color: "text.secondary"}, "Browse and download research and methodology documents.")
+),
+React.createElement(Grid, {container: true, spacing: 2},
+publications.map((p) => React.createElement(Grid, {item: true, xs: 12, sm: 6, key: p.id}, React.createElement(PublicationCard, {pub: p})))
+),
+React.createElement(Box, {mt: 6}, React.createElement(Divider, null)),
+React.createElement(Box, {mt: 2, display: "flex", justifyContent: "space-between", alignItems: "center"},
+React.createElement(Typography, {variant: "caption", color: "text.secondary"}, "© ", new Date().getFullYear(), " Rubidium Data"),
+React.createElement(Link, {href: "https://github.com/Accounting-AI/rubidium-data-publications/blob/main/pdfs/valuechains-methodology-paper-v-1-0/valuechains-methodology-paper-v-1-0.pdf", target: "_blank", rel: "noopener", underline: "hover", color: "inherit"}, "Source on GitHub")
+)
+)
+)
+);
+}
+
+createRoot(document.getElementById("root")).render(React.createElement(App));
+</script>
+</body>
+</html>
